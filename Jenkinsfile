@@ -19,14 +19,18 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build Client') {
             steps {
                 script {
-                    // Build Node.js (Express) application
-                    sh 'cd server && npm install && npm run build'
-
-                    // Build React application
                     sh 'cd client && npm install && npm run build'
+                }
+            }
+        }
+
+        stage('Build Server') {
+            steps {
+                script {
+                    sh 'cd server && npm install'
                 }
             }
         }
@@ -34,7 +38,6 @@ pipeline {
         // stage('Test') {
         //     steps {
         //         script {
-        //             // Run Unit Tests
         //             sh 'cd server && npm test'
         //             sh 'cd client && npm test'
         //         }
@@ -44,7 +47,6 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    // Build Docker images in Minikube's Docker environment
                     sh 'docker build -t ${SERVER_DOCKER_IMAGE}:${GIT_COMMIT} ./server'
                     sh 'docker build -t ${CLIENT_DOCKER_IMAGE}:${GIT_COMMIT} ./client'
                 }
@@ -67,7 +69,6 @@ pipeline {
         stage('Post-Deployment Tests') {
             steps {
                 script {
-                    // Run post-deployment tests
                     sh 'curl -f http://$(minikube ip):NodePort || exit 1'
                 }
             }
@@ -79,7 +80,6 @@ pipeline {
             }
             steps {
                 script {
-                    // Rollback to previous stable version
                     sh 'kubectl rollout undo deployment/mern-server'
                     sh 'kubectl rollout undo deployment/mern-client'
                 }
