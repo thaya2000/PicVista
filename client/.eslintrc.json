@@ -1,7 +1,26 @@
 {
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
   "rules": {
-    "no-unused-vars": "warn", // Change from "error" to "warn"
-    "react-hooks/exhaustive-deps": "warn", // Change from "error" to "warn"
-    // Add other rules you want to relax
+    "react/prop-types": "off",
+    "no-unused-vars": "warn",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }
