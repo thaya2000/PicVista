@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mern-server
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mern-server
+  template:
+    metadata:
+      labels:
+        app: mern-server
+    spec:
+      containers:
+      - name: mern-server
+        image: thayanan/server:${GIT_COMMIT}
+        ports:
+        - containerPort: 5000
+        env:
+        - name: PORT
+          valueFrom:
+            secretKeyRef:
+              name: picvista-secrets
+              key: PORT
+        - name: MONGO_DB
+          valueFrom:
+            secretKeyRef:
+              name: picvista-secrets
+              key: MONGO_DB
+        - name: JWT_KEY
+          valueFrom:
+            secretKeyRef:
+              name: picvista-secrets
+              key: JWT_KEY
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mern-client
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mern-client
+  template:
+    metadata:
+      labels:
+        app: mern-client
+    spec:
+      containers:
+      - name: mern-client
+        image: thayanan/client:${GIT_COMMIT}
+        ports:
+        - containerPort: 3000
+        env:
+        - name: REACT_APP_PUBLIC_FOLDER
+          valueFrom:
+            secretKeyRef:
+              name: picvista-secrets
+              key: REACT_APP_PUBLIC_FOLDER
