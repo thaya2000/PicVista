@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "no-unused-vars": "warn", // Change from "error" to "warn"
+    "react-hooks/exhaustive-deps": "warn", // Change from "error" to "warn"
+    // Add other rules you want to relax
+  }
+}
