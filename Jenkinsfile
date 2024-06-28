@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        GITHUB_TOKEN = credentials('github-token')
         PORT = credentials('PORT_CI')
         REACT_APP_PUBLIC_FOLDER = credentials('REACT_APP_PUBLIC_FOLDER_CI')
         MONGO_DB = credentials('MONGO_DB_CI')
@@ -15,8 +14,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    // Checkout code from GitHub using token
-                    git url: 'https://github.com/thaya2000/PicVista.git', credentialsId: 'github-token'
+                    git url: 'https://github.com/thaya2000/PicVista.git', branch: 'main'
                 }
             }
         }
